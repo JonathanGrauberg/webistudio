@@ -321,7 +321,7 @@ export function Presentation() {
         {/* Header */}
         <div className={`pres-header${visible ? " visible" : ""}`}>
           <h2 className="pres-title">
-            <span>One</span> a few more things.
+            <span>One</span> Clientes
           </h2>
           <p className="pres-sub">
             Construimos plataformas que transforman la forma en que tu empresa opera y crece.
