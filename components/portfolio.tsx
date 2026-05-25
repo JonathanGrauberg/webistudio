@@ -321,8 +321,7 @@ export function Portfolio() {
             >
               {projects.map((project, index) => {
                 const isSelected = index === selectedIndex
-                const ProjectIcon = project.icon
-
+                
                 return (
                   <button
                     key={project.name}
