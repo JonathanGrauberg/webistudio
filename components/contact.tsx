@@ -1,143 +1,421 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import { Mail, ArrowRight } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { ArrowRight } from "lucide-react"
 
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
+  const [visible, setVisible] = useState(false)
+  const [sent, setSent] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("animate-in")
-        })
-      },
+      ([entry]) => { if (entry.isIntersecting) setVisible(true) },
       { threshold: 0.1 }
     )
-    const elements = sectionRef.current?.querySelectorAll(".reveal")
-    elements?.forEach((el) => observer.observe(el))
+    if (sectionRef.current) observer.observe(sectionRef.current)
     return () => observer.disconnect()
   }, [])
 
   return (
-    <section ref={sectionRef} id="contacto" className="py-24 lg:py-32 bg-secondary">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          <div>
-            <p className="reveal opacity-0 translate-y-8 transition-all duration-700 text-primary text-sm font-medium tracking-widest uppercase mb-4">
-              Contacto
-            </p>
-            <h2
-              className="reveal opacity-0 translate-y-8 transition-all duration-700 delay-100 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              Empecemos tu{" "}
-              <span className="text-primary">proyecto</span>
-            </h2>
-            <p className="reveal opacity-0 translate-y-8 transition-all duration-700 delay-200 mt-6 text-muted-foreground text-lg leading-relaxed max-w-lg">
-              Contanos sobre tu empresa y lo que necesitas. Evaluamos cada
-              proyecto de forma personalizada para ofrecerte la mejor
-              solucion.
-            </p>
-            <div className="reveal opacity-0 translate-y-8 transition-all duration-700 delay-300 mt-8 flex items-center gap-3">
-              <Mail size={18} className="text-primary" />
-              <a href="mailto:hola@webi.com" className="text-muted-foreground hover:text-primary transition-colors">
-                hola@webi.com
-              </a>
+    <section ref={sectionRef} id="contacto" className="ct-section">
+      <style>{`
+        .ct-section {
+          background: #000;
+          padding: 120px 0;
+          overflow: hidden;
+        }
+
+        .ct-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 2.5rem;
+        }
+
+        /* Header */
+        .ct-header {
+          margin-bottom: 72px;
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .ct-header.in { opacity: 1; transform: translateY(0); }
+
+        .ct-eyebrow {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.7rem;
+          font-weight: 300;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: #fcc107;
+          margin-bottom: 1.2rem;
+        }
+
+        .ct-heading {
+          font-family: 'Satoshi', sans-serif;
+          font-weight: 900;
+          font-size: clamp(2.5rem, 5vw, 4.5rem);
+          line-height: 1;
+          letter-spacing: -0.04em;
+          color: #fff;
+          margin: 0 0 1.5rem;
+        }
+
+        .ct-heading em {
+          font-style: normal;
+          color: #fcc107;
+        }
+
+        .ct-sub {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 1rem;
+          font-weight: 300;
+          line-height: 1.75;
+          color: rgba(255,255,255,0.4);
+          max-width: 480px;
+          margin: 0;
+        }
+
+        /* Layout */
+        .ct-body {
+          display: grid;
+          grid-template-columns: 1fr 1.6fr;
+          gap: 1px;
+          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.07);
+          opacity: 0;
+          transform: translateY(28px);
+          transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
+        }
+        .ct-body.in { opacity: 1; transform: translateY(0); }
+
+        /* Left panel */
+        .ct-left {
+          background: #000;
+          padding: 3rem 2.5rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .ct-left::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, #fcc107, transparent);
+        }
+
+        .ct-left-bg {
+          position: absolute;
+          bottom: -20px; right: -10px;
+          font-family: 'Satoshi', sans-serif;
+          font-weight: 900;
+          font-size: 9rem;
+          line-height: 1;
+          color: rgba(252,193,7,0.03);
+          user-select: none;
+          pointer-events: none;
+          letter-spacing: -0.05em;
+        }
+
+        .ct-info-label {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.65rem;
+          font-weight: 300;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.2);
+          margin-bottom: 0.4rem;
+        }
+
+        .ct-info-value {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.95rem;
+          font-weight: 300;
+          color: rgba(255,255,255,0.7);
+          text-decoration: none;
+          transition: color 0.2s;
+        }
+        a.ct-info-value:hover { color: #fcc107; }
+
+        .ct-info-block {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .ct-promise {
+          border-top: 1px solid rgba(255,255,255,0.06);
+          padding-top: 2rem;
+        }
+
+        .ct-promise-text {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.8rem;
+          font-weight: 300;
+          line-height: 1.7;
+          color: rgba(255,255,255,0.25);
+        }
+
+        .ct-promise-text strong {
+          color: rgba(255,255,255,0.5);
+          font-weight: 500;
+        }
+
+        /* Right panel — form */
+        .ct-right {
+          background: #000;
+          padding: 3rem 2.5rem;
+          position: relative;
+        }
+
+        .ct-right::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1px;
+          background: rgba(255,255,255,0.06);
+        }
+
+        /* Form fields */
+        .ct-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1px;
+          background: rgba(255,255,255,0.06);
+          margin-bottom: 1px;
+        }
+
+        .ct-field {
+          background: #000;
+          padding: 1.25rem 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+          transition: background 0.2s;
+        }
+        .ct-field:focus-within { background: #0a0a0a; }
+
+        .ct-field-full {
+          background: #000;
+          border-top: 1px solid rgba(255,255,255,0.06);
+          padding: 1.25rem 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+          margin-bottom: 1px;
+          transition: background 0.2s;
+        }
+        .ct-field-full:focus-within { background: #0a0a0a; }
+
+        .ct-label {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.65rem;
+          font-weight: 300;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.25);
+        }
+
+        .ct-input {
+          background: transparent;
+          border: none;
+          outline: none;
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.95rem;
+          font-weight: 300;
+          color: #fff;
+          width: 100%;
+        }
+        .ct-input::placeholder { color: rgba(255,255,255,0.15); }
+
+        .ct-select {
+          background: transparent;
+          border: none;
+          outline: none;
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.95rem;
+          font-weight: 300;
+          color: #fff;
+          width: 100%;
+          cursor: pointer;
+          -webkit-appearance: none;
+        }
+        .ct-select option { background: #111; color: #fff; }
+
+        .ct-textarea {
+          background: transparent;
+          border: none;
+          outline: none;
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.95rem;
+          font-weight: 300;
+          color: #fff;
+          width: 100%;
+          resize: none;
+          min-height: 100px;
+        }
+        .ct-textarea::placeholder { color: rgba(255,255,255,0.15); }
+
+        /* Submit */
+        .ct-submit-row {
+          border-top: 1px solid rgba(255,255,255,0.06);
+          padding: 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+        }
+
+        .ct-submit-note {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.7rem;
+          font-weight: 300;
+          letter-spacing: 0.1em;
+          color: rgba(255,255,255,0.15);
+        }
+
+        .ct-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.78rem;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #000;
+          background: #fcc107;
+          border: none;
+          padding: 0.9rem 2rem;
+          cursor: pointer;
+          transition: gap 0.2s, background 0.2s;
+          white-space: nowrap;
+        }
+        .ct-btn:hover { gap: 16px; background: #ffd43b; }
+
+        .ct-sent {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.85rem;
+          font-weight: 300;
+          color: rgba(255,255,255,0.4);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .ct-sent::before {
+          content: '';
+          display: inline-block;
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: #fcc107;
+        }
+
+        @media (max-width: 900px) {
+          .ct-body { grid-template-columns: 1fr; }
+          .ct-left { padding: 2.5rem 2rem; min-height: auto; }
+        }
+        @media (max-width: 600px) {
+          .ct-section { padding: 80px 0; }
+          .ct-inner { padding: 0 1.5rem; }
+          .ct-header { margin-bottom: 48px; }
+          .ct-row { grid-template-columns: 1fr; }
+          .ct-submit-row { flex-direction: column; align-items: flex-start; }
+          .ct-btn { width: 100%; justify-content: center; }
+        }
+      `}</style>
+
+      <div className="ct-inner">
+        <div className={`ct-header${visible ? " in" : ""}`}>
+          <p className="ct-eyebrow">Contacto</p>
+          <h2 className="ct-heading">
+            Empecemos<br />tu <em>proyecto</em>
+          </h2>
+          <p className="ct-sub">
+            Contanos qué necesita tu empresa. Evaluamos cada caso de forma personalizada — sin formularios genéricos, sin respuestas automáticas.
+          </p>
+        </div>
+
+        <div className={`ct-body${visible ? " in" : ""}`}>
+          {/* Left */}
+          <div className="ct-left">
+            <div className="ct-left-bg">W.</div>
+            <div className="ct-info-block">
+              <div>
+                <div className="ct-info-label">Email</div>
+                <a href="mailto:hola@webi.com.ar" className="ct-info-value">hola@webi.com.ar</a>
+              </div>
+              <div>
+                <div className="ct-info-label">WhatsApp</div>
+                <a href="https://wa.me/5493436959359" className="ct-info-value">+54 9 3436959359</a>
+              </div>
+              <div>
+                <div className="ct-info-label">Ubicación</div>
+                <span className="ct-info-value">Paraná, Entre Ríos — Argentina</span>
+              </div>
+            </div>
+            <div className="ct-promise">
+              <p className="ct-promise-text">
+                <strong>Respondemos en menos de 24hs.</strong> Cada consulta la lee una persona real del equipo, no un bot.
+              </p>
             </div>
           </div>
 
-          <div className="reveal opacity-0 translate-y-8 transition-all duration-700 delay-200">
-            <form
-              className="space-y-5"
-              onSubmit={(e) => e.preventDefault()}
-            >
-              <div className="grid md:grid-cols-2 gap-5">
-                <div>
-                  <label htmlFor="name" className="text-sm font-medium text-foreground mb-2 block">
-                    Nombre
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Tu nombre"
-                    className="w-full px-4 py-3 rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all"
-                  />
+          {/* Right — form */}
+          <div className="ct-right">
+            {sent ? (
+              <div style={{ padding: "3rem 1.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <div className="ct-sent">Mensaje enviado</div>
+                <p style={{ fontFamily: "'Satoshi', sans-serif", fontSize: "0.9rem", fontWeight: 300, color: "rgba(255,255,255,0.4)", lineHeight: 1.7 }}>
+                  Gracias. Te contactamos en las próximas 24 horas.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={(e) => { e.preventDefault(); setSent(true) }}>
+                <div className="ct-row">
+                  <div className="ct-field">
+                    <label className="ct-label">Nombre</label>
+                    <input className="ct-input" type="text" placeholder="Tu nombre" required />
+                  </div>
+                  <div className="ct-field">
+                    <label className="ct-label">Email</label>
+                    <input className="ct-input" type="email" placeholder="tu@email.com" required />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="email" className="text-sm font-medium text-foreground mb-2 block">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="tu@email.com"
-                    className="w-full px-4 py-3 rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all"
-                  />
+                <div className="ct-field-full">
+                  <label className="ct-label">Empresa</label>
+                  <input className="ct-input" type="text" placeholder="Nombre de tu empresa" />
                 </div>
-              </div>
-              <div>
-                <label htmlFor="company" className="text-sm font-medium text-foreground mb-2 block">
-                  Empresa
-                </label>
-                <input
-                  id="company"
-                  type="text"
-                  placeholder="Nombre de tu empresa"
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all"
-                />
-              </div>
-              <div>
-                <label htmlFor="service" className="text-sm font-medium text-foreground mb-2 block">
-                  Servicio de interes
-                </label>
-                <select
-                  id="service"
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border text-foreground focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all"
-                  defaultValue=""
-                >
-                  <option value="" disabled>Selecciona un servicio</option>
-                  <option value="sistemas">Sistemas Web a Medida</option>
-                  <option value="web">Desarrollo Web</option>
-                  <option value="ecommerce">Ecommerce</option>
-                  <option value="redes">Gestion de Redes Sociales</option>
-                  <option value="ads">Google Ads / Meta Ads</option>
-                  <option value="audiovisual">Produccion Audiovisual</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="message" className="text-sm font-medium text-foreground mb-2 block">
-                  Mensaje
-                </label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  placeholder="Contanos sobre tu proyecto..."
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all resize-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="group w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-medium rounded-lg hover:bg-primary/90 transition-all duration-200"
-              >
-                Enviar Mensaje
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </button>
-            </form>
+                <div className="ct-field-full">
+                  <label className="ct-label">Servicio de interés</label>
+                  <select className="ct-select" defaultValue="">
+                    <option value="" disabled>Seleccioná un servicio</option>
+                    <option value="sistemas">Sistemas Web a Medida</option>
+                    <option value="web">Desarrollo Web</option>
+                    <option value="ecommerce">Ecommerce</option>
+                    <option value="redes">Gestión de Redes Sociales</option>
+                    <option value="ads">Google Ads / Meta Ads</option>
+                    <option value="audiovisual">Producción Audiovisual</option>
+                  </select>
+                </div>
+                <div className="ct-field-full">
+                  <label className="ct-label">Mensaje</label>
+                  <textarea className="ct-textarea" placeholder="Contanos sobre tu proyecto..." required />
+                </div>
+                <div className="ct-submit-row">
+                  <span className="ct-submit-note">Sin spam. Solo te contactamos si lo pedís.</span>
+                  <button type="submit" className="ct-btn">
+                    Enviar <ArrowRight size={14} />
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .animate-in {
-          opacity: 1 !important;
-          transform: translateY(0) !important;
-        }
-      `}</style>
     </section>
   )
 }

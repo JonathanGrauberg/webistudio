@@ -1,130 +1,193 @@
 "use client"
-
+//components\metrics.tsx
 import { useEffect, useRef, useState } from "react"
 
 const metrics = [
-  { value: 6, suffix: "+", label: "Proyectos\nEntregados" },
-  { value: 3, suffix: "+", label: "Sistemas\nActivos" },
-  { value: 100, suffix: "%", label: "Soluciones\nPersonalizadas" },
-  { value: 5, suffix: "+", label: "Clientes\nSatisfechos" },
+  { value: 13,   suffix: "+", label: "Proyectos entregados" },
+  { value: 7,   suffix: "+", label: "Sistemas activos" },
+  { value: 100, suffix: "%", label: "Soluciones personalizadas" },
+  { value: 20,   suffix: "+", label: "Clientes satisfechos" },
 ]
 
-function AnimatedCounter({
-  target,
-  suffix,
-  isVisible,
-}: {
-  target: number
-  suffix: string
-  isVisible: boolean
-}) {
+function AnimatedCounter({ target, suffix, isVisible }: { target: number; suffix: string; isVisible: boolean }) {
   const [count, setCount] = useState(0)
-
   useEffect(() => {
     if (!isVisible) return
     let start = 0
-    const duration = 2000
-    const increment = target / (duration / 16)
+    const increment = target / (2000 / 16)
     const timer = setInterval(() => {
       start += increment
-      if (start >= target) {
-        setCount(target)
-        clearInterval(timer)
-      } else {
-        setCount(Math.floor(start))
-      }
+      if (start >= target) { setCount(target); clearInterval(timer) }
+      else setCount(Math.floor(start))
     }, 16)
     return () => clearInterval(timer)
   }, [isVisible, target])
-
-  return (
-    <span>
-      {count}
-      {suffix}
-    </span>
-  )
+  return <span>{count}{suffix}</span>
 }
 
 export function Metrics() {
   const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-in")
-            setIsVisible(true)
-          }
-        })
-      },
-      { threshold: 0.2 }
+      ([entry]) => { if (entry.isIntersecting) setVisible(true) },
+      { threshold: 0.15 }
     )
-    const elements = sectionRef.current?.querySelectorAll(".reveal")
-    elements?.forEach((el) => observer.observe(el))
     if (sectionRef.current) observer.observe(sectionRef.current)
     return () => observer.disconnect()
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative py-24 lg:py-32 overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_50%,rgba(232,88,12,0.08),transparent)]" />
-      </div>
+    <section ref={sectionRef} className="metrics-section">
+      <style>{`
+        .metrics-section {
+          background: #000;
+          padding: 120px 0;
+          overflow: hidden;
+        }
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <p className="reveal opacity-0 translate-y-8 transition-all duration-700 text-primary text-sm font-medium tracking-widest uppercase mb-4">
-              Soluciones Digitales
-            </p>
-            <h2
-              className="reveal opacity-0 translate-y-8 transition-all duration-700 delay-100 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              <span className="text-primary">SOLUCIONES</span>
-              <br />
-              DIGITALES
-            </h2>
-            <p className="reveal opacity-0 translate-y-8 transition-all duration-700 delay-200 mt-6 text-muted-foreground text-lg leading-relaxed max-w-lg">
-              Con cada proyecto, ponemos foco en resolver problemas reales
-              y construir herramientas que generen valor concreto para cada
-              empresa.
-            </p>
-          </div>
+        .metrics-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 2.5rem;
+        }
 
-          <div className="reveal opacity-0 translate-y-8 transition-all duration-700 delay-300 grid grid-cols-2 gap-6">
-            {metrics.map((metric, i) => (
-              <div
-                key={i}
-                className="p-6 rounded-xl border border-border bg-card"
-              >
-                <p
-                  className="text-4xl md:text-5xl font-bold text-primary"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                >
-                  <AnimatedCounter
-                    target={metric.value}
-                    suffix={metric.suffix}
-                    isVisible={isVisible}
-                  />
-                </p>
-                <p className="text-muted-foreground text-sm mt-2 whitespace-pre-line leading-relaxed">
-                  {metric.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+        /* Header */
+        .metrics-header {
+          margin-bottom: 80px;
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .metrics-header.in { opacity: 1; transform: translateY(0); }
 
-      <style jsx>{`
-        .animate-in {
-          opacity: 1 !important;
-          transform: translateY(0) !important;
+        .metrics-eyebrow {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.7rem;
+          font-weight: 300;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: #fcc107;
+          margin-bottom: 1.2rem;
+        }
+
+        .metrics-heading {
+          font-family: 'Satoshi', sans-serif;
+          font-weight: 900;
+          font-size: clamp(2.5rem, 5vw, 4.5rem);
+          line-height: 1;
+          letter-spacing: -0.04em;
+          color: #fff;
+          margin: 0 0 1.5rem;
+        }
+
+        .metrics-heading em {
+          font-style: normal;
+          color: #fcc107;
+        }
+
+        .metrics-sub {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 1rem;
+          font-weight: 300;
+          line-height: 1.75;
+          color: rgba(255,255,255,0.4);
+          max-width: 480px;
+          margin: 0;
+        }
+
+        /* Grid */
+        .metrics-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1px;
+          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .metrics-card {
+          background: #000;
+          padding: 2.5rem 2rem;
+          position: relative;
+          overflow: hidden;
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .metrics-card.in { opacity: 1; transform: translateY(0); }
+        .metrics-card:nth-child(1) { transition-delay: 0.05s; }
+        .metrics-card:nth-child(2) { transition-delay: 0.12s; }
+        .metrics-card:nth-child(3) { transition-delay: 0.19s; }
+        .metrics-card:nth-child(4) { transition-delay: 0.26s; }
+
+        .metrics-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1px;
+          background: #fcc107;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.4s ease;
+        }
+        .metrics-card:hover::before { transform: scaleX(1); }
+
+        .metrics-card-num {
+          font-family: 'Satoshi', sans-serif;
+          font-weight: 900;
+          font-size: clamp(3rem, 5vw, 4.5rem);
+          line-height: 1;
+          letter-spacing: -0.04em;
+          color: #fff;
+          margin-bottom: 0.5rem;
+          transition: color 0.3s;
+        }
+        .metrics-card:hover .metrics-card-num { color: #fcc107; }
+
+        .metrics-card-label {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.72rem;
+          font-weight: 300;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.3);
+          line-height: 1.5;
+        }
+
+        @media (max-width: 900px) {
+          .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+          .metrics-section { padding: 80px 0; }
+          .metrics-inner { padding: 0 1.5rem; }
+          .metrics-header { margin-bottom: 48px; }
+          .metrics-grid { grid-template-columns: repeat(2, 1fr); }
         }
       `}</style>
+
+      <div className="metrics-inner">
+        <div className={`metrics-header${visible ? " in" : ""}`}>
+          <p className="metrics-eyebrow">En números</p>
+          <h2 className="metrics-heading">
+            Resultados<br />que <em>hablan</em>
+          </h2>
+          <p className="metrics-sub">
+            Cada número representa un problema resuelto y una empresa que opera mejor de lo que operaba antes.
+          </p>
+        </div>
+
+        <div className="metrics-grid">
+          {metrics.map((m, i) => (
+            <div key={i} className={`metrics-card${visible ? " in" : ""}`}>
+              <div className="metrics-card-num">
+                <AnimatedCounter target={m.value} suffix={m.suffix} isVisible={visible} />
+              </div>
+              <div className="metrics-card-label">{m.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }

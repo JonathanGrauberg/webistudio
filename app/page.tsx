@@ -22,10 +22,10 @@ export default function Home() {
       <Services />
       <ValueProposition />
       <Metrics />
-      <Plans />
+      {/*<Plans />*/}
       <ComplementaryServices />
       <Team />
-      <Testimonials />
+      {/*<Testimonials />*/}
       <Contact />
       <Footer />
     </main>

@@ -17,21 +17,21 @@ const projects: Project[] = [
     name: "Centro Medico",
     logo: "/logos/igm.png",
     category: "Sistema Web",
-    description: "Sistema de gestión médica con turnos online, historiales clínicos y facturación. Incluye roles de usuario y automatización de procesos para optimizar la operación del centro.",
+    description: "Sistema digital para centros médicos que simplifica la carga de archivos clínicos y automatiza usuarios, mejorando la gestión y reduciendo el uso de papel.",
     backgroundImage: "/projects/igm.png"
   },
   {
     name: "OICSA",
     logo: "/logos/oicsa.png",
     category: "Sistema de Stock",
-    description: "Sistema de stock y control de materiales con usuarios y roles. Permite registrar vales internos, movimientos y optimizar la logística en entornos industriales.",
+    description: "Software de gestión desarrollado a medida para optimizar el control de stock, vales internos y logística operativa en empresas industriales.",
     backgroundImage: "/projects/oicsa.png"
   },
   {
     name: "Ecoservicios",
     logo: "/logos/ecoservicios.png",
     category: "Sistema + Marketing",
-    description: "Sistema de presupuestación con stock, PDFs personalizados y gestión de clientes. Integrado con contenido, redes y piezas digitales para potenciar ventas y presencia online.",
+    description: "Plataforma de gestión comercial con presupuestos, stock, clientes y generación automática de PDFs personalizados.",
     backgroundImage: "/projects/ecoservicios.png"
   },
   {

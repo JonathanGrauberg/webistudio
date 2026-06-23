@@ -3,11 +3,6 @@
 import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 
-// Filena font: import in your globals.css or layout.tsx:
-// @import url('https://fonts.cdnfonts.com/css/filena');
-// Then set: --font-filena: 'Filena', sans-serif;
-// On <html> or <body>: font-family: var(--font-filena);
-
 const navLinks = [
   { label: "Servicios", href: "#servicios" },
   { label: "Portfolio", href: "#portfolio" },
@@ -54,7 +49,7 @@ export function Navbar() {
 
         .navbar-logo {
           font-size: 1.6rem;
-          font-weight: 700;
+          font-weight: 900;
           letter-spacing: -0.03em;
           color: #ffffff;
           text-decoration: none;
@@ -77,13 +72,13 @@ export function Navbar() {
 
         .navbar-link {
           font-size: 0.8rem;
-          font-weight: 500;
+          font-weight: 300;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           color: rgba(255,255,255,0.5);
           text-decoration: none;
           transition: color 0.2s;
-          font-family: var(--font-filena, 'Satoshi', sans-serif);
+          font-family: 'Satoshi', sans-serif;
         }
 
         .navbar-link:hover {
@@ -111,13 +106,13 @@ export function Navbar() {
 
         .navbar-mobile-link {
           font-size: 0.85rem;
-          font-weight: 500;
+          font-weight: 300;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           color: rgba(255,255,255,0.45);
           text-decoration: none;
           transition: color 0.2s;
-          font-family: var(--font-filena, 'Satoshi', sans-serif);
+          font-family: 'Satoshi', sans-serif;
         }
 
         .navbar-mobile-link:hover { color: #ffffff; }
