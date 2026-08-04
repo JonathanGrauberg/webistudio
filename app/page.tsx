@@ -1,3 +1,4 @@
+//app\page.tsx
 import { Navbar } from "@/components/navbar"
 import { Hero } from "@/components/hero"
 import { Presentation } from "@/components/presentation"
@@ -11,6 +12,7 @@ import { Team } from "@/components/team"
 import { Testimonials } from "@/components/testimonials"
 import { Contact } from "@/components/contact"
 import { Footer } from "@/components/footer"
+import { OwnProduct } from "@/components/own-product"
 
 export default function Home() {
   return (
@@ -22,6 +24,7 @@ export default function Home() {
       <Services />
       <ValueProposition />
       <Metrics />
+      <OwnProduct />
       {/*<Plans />*/}
       <ComplementaryServices />
       <Team />

@@ -191,13 +191,13 @@ export function Hero() {
       </section>
 
       <div className="global-socials">
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-link">
+        <a href="https://www.linkedin.com/company/webi-studio/" target="_blank" rel="noopener noreferrer" className="social-link">
           <Linkedin size={20} />
         </a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link">
+        <a href="https://www.instagram.com/webi.by.grauberg/" target="_blank" rel="noopener noreferrer" className="social-link">
           <Instagram size={20} />
         </a>
-        <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" className="social-link">
+        <a href="https://wa.me/5493436959359" target="_blank" rel="noopener noreferrer" className="social-link">
           <WhatsAppIcon />
         </a>
       </div>

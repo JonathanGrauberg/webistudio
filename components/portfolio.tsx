@@ -1,5 +1,5 @@
 "use client"
-
+//components\portfolio.tsx
 import { useEffect, useRef, useState, useCallback } from "react"
 import { MonitorSmartphone, ShoppingCart, Building2, Factory, Leaf, Gem, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
