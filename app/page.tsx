@@ -19,12 +19,12 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
+      <OwnProduct />
       <Portfolio />
       <Presentation />
       <Services />
       <ValueProposition />
       <Metrics />
-      <OwnProduct />
       {/*<Plans />*/}
       <ComplementaryServices />
       <Team />

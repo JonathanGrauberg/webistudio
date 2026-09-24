@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
-import { ArrowUpRight, QrCode, Calculator, TrendingUp, Sparkles, FileText, CheckCircle2 } from "lucide-react"
+import { ArrowUpRight, QrCode, Calculator, TrendingUp, Sparkles, FileText } from "lucide-react"
 import Image from "next/image"
 
 // Definimos cada Slide con su imagen, documento o pantalla, y su copy correspondiente
@@ -25,6 +25,8 @@ const slides = [
     title: "Tu marca, tu estilo, tu identidad",
     description: "Personaliza tu ecosistema con tu logo y colores. Cada presupuesto, orden de trabajo y remito reflejará la identidad de tu empresa.",
   },
+  // TODO: descomentar cuando estén las capturas en /public/docs/
+  /*
   {
     id: "quote-pdf",
     src: "/docs/presupuesto-pdf.png", // 👈 Captura de un Presupuesto formal emitido
@@ -55,6 +57,7 @@ const slides = [
     title: "Remitos de entrega y Recibos oficiales",
     description: "Cierra el circuito registrando entregas de material y pagos parciales o totales. Cero reclamos por entregas o saldos impagos.",
   },
+  */
 ]
 
 export function OwnProduct() {
@@ -84,7 +87,7 @@ export function OwnProduct() {
   const IconComponent = currentSlide.icon
 
   return (
-    <section ref={sectionRef} id="budgets" className="own-product-section">
+    <section ref={sectionRef} id="productos" className="own-product-section">
       <style>{`
         .own-product-section {
           background: #000;
@@ -389,18 +392,229 @@ export function OwnProduct() {
             min-width: max-content;
           }
         }
+        /* Encabezado familia de productos */
+        .op-family-header {
+          max-width: 640px;
+          margin-bottom: 64px;
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .op-family-header.in { opacity: 1; transform: translateY(0); }
+
+        .op-family-eyebrow {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.7rem;
+          font-weight: 300;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: #fcc107;
+          margin-bottom: 1.2rem;
+        }
+
+        .op-family-heading {
+          font-family: 'Satoshi', sans-serif;
+          font-weight: 900;
+          font-size: clamp(2rem, 3.5vw, 3rem);
+          line-height: 1.08;
+          letter-spacing: -0.03em;
+          color: #fff;
+          margin: 0 0 1.2rem;
+        }
+        .op-family-heading em { font-style: normal; color: #fcc107; }
+
+        .op-family-sub {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 1rem;
+          font-weight: 300;
+          line-height: 1.75;
+          color: rgba(255,255,255,0.4);
+          margin: 0;
+        }
+
+        /* Logo + estado del producto */
+        .op-product-head {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 14px;
+          margin-bottom: 1.25rem;
+        }
+
+        .op-product-logo {
+          height: 44px;
+          width: auto;
+        }
+        .op-product-logo-sm { height: 30px; }
+
+        .op-status {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.65rem;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          padding: 4px 10px;
+          border-radius: 100px;
+        }
+        .op-status-dot {
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: currentColor;
+        }
+        .op-status-live {
+          color: #4ade80;
+          background: rgba(74,222,128,0.08);
+          border: 1px solid rgba(74,222,128,0.25);
+        }
+        .op-status-live .op-status-dot { animation: op-pulse 1.8s ease-in-out infinite; }
+        .op-status-soon {
+          color: #fcc107;
+          background: rgba(252,193,7,0.08);
+          border: 1px solid rgba(252,193,7,0.25);
+        }
+        @keyframes op-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+
+        /* .clinika */
+        .op-next {
+          margin-top: 96px;
+          display: grid;
+          grid-template-columns: 0.95fr 1.05fr;
+          gap: 56px;
+          align-items: center;
+          padding: 3rem 2.5rem;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 16px;
+          background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+          position: relative;
+          overflow: hidden;
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+        }
+        .op-next.in { opacity: 1; transform: translateY(0); }
+        .op-next::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, #fcc107, transparent);
+        }
+
+        .op-next-title {
+          font-family: 'Satoshi', sans-serif;
+          font-weight: 900;
+          font-size: clamp(1.5rem, 2.4vw, 2rem);
+          line-height: 1.12;
+          letter-spacing: -0.03em;
+          color: #fff;
+          margin: 0 0 1rem;
+        }
+        .op-next-title em { font-style: normal; color: #fcc107; }
+
+        .op-next-desc {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.92rem;
+          font-weight: 300;
+          line-height: 1.75;
+          color: rgba(255,255,255,0.45);
+          margin: 0 0 1.5rem;
+        }
+
+        .op-next-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 2rem;
+        }
+        .op-next-tag {
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.68rem;
+          font-weight: 500;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.5);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 100px;
+          padding: 5px 12px;
+        }
+
+        .op-next-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-family: 'Satoshi', sans-serif;
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #fff;
+          text-decoration: none;
+          border: 1px solid rgba(255,255,255,0.15);
+          border-radius: 100px;
+          padding: 0.75rem 1.4rem;
+          transition: all 0.2s;
+        }
+        .op-next-cta:hover { border-color: #fcc107; color: #fcc107; gap: 12px; }
+
+        .op-next-shot {
+          position: relative;
+          border-radius: 12px;
+          overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.1);
+          box-shadow: 0 30px 80px -20px rgba(252,193,7,0.15);
+          transform: perspective(1400px) rotateY(-6deg);
+          transition: transform 0.6s ease;
+        }
+        .op-next:hover .op-next-shot { transform: perspective(1400px) rotateY(0deg); }
+        .op-next-img { width: 100%; height: auto; display: block; }
+
+        @media (max-width: 900px) {
+          .op-next { grid-template-columns: 1fr; gap: 2rem; margin-top: 64px; }
+          .op-next-shot { transform: none; }
+          .op-next:hover .op-next-shot { transform: none; }
+        }
+        @media (max-width: 600px) {
+          .op-next { padding: 2rem 1.25rem; }
+          .op-family-header { margin-bottom: 40px; }
+        }
       `}</style>
 
       <div className="own-product-inner">
+        {/* Encabezado de la familia de productos */}
+        <div className={`op-family-header${visible ? " in" : ""}`}>
+          <p className="op-family-eyebrow">Productos propios</p>
+          <h2 className="op-family-heading">
+            Software <em>.webi</em>, listo para usar
+          </h2>
+          <p className="op-family-sub">
+            Además de desarrollar a medida, creamos nuestros propios sistemas. Probados en negocios reales y mejorando todos los meses.
+          </p>
+        </div>
+
         <div className="own-product-grid">
           {/* Columna Izquierda: Información dinámica */}
           <div className={`op-copy${visible ? " in" : ""}`}>
-            <div className="op-eyebrow">
-              <Sparkles size={12} /> Ecosistema de Gestión SaaS
+            <div className="op-product-head">
+              <Image
+                src="/products/budgets-logo.png"
+                alt=".budgets"
+                width={1080}
+                height={300}
+                className="op-product-logo"
+              />
+              <span className="op-status op-status-live">
+                <span className="op-status-dot" /> Disponible
+              </span>
             </div>
-            <h2 className="op-heading">
-              Un flujo operativo <em>unificado</em>.
-            </h2>
+            <h3 className="op-heading">
+              Presupuestá, cobrá y controlá tu negocio en un <em>solo lugar</em>.
+            </h3>
 
             {/* Tarjeta dinámica sincronizada con el slide activo */}
             <div className="op-dynamic-card">
@@ -474,6 +688,51 @@ export function OwnProduct() {
                 </button>
               ))}
             </div>
+          </div>
+        </div>
+        {/* .clinika — próximo producto */}
+        <div className={`op-next${visible ? " in" : ""}`}>
+          <div className="op-next-copy">
+            <div className="op-product-head">
+              <Image
+                src="/products/clinika-logo-white.png"
+                alt=".clinika"
+                width={704}
+                height={230}
+                className="op-product-logo op-product-logo-sm"
+              />
+              <span className="op-status op-status-soon">
+                <span className="op-status-dot" /> En desarrollo
+              </span>
+            </div>
+            <h3 className="op-next-title">
+              La gestión de tu clínica, <em>simple</em>.
+            </h3>
+            <p className="op-next-desc">
+              Turnos por profesional, historia de pacientes, estudios y facturación en una plataforma pensada para centros de salud. Estamos en la primera fase: si tenés una clínica o consultorio, sumate para probarlo antes que nadie.
+            </p>
+            <div className="op-next-tags">
+              {["Turnos", "Pacientes", "Estudios", "Facturación", "Auditoría"].map((t) => (
+                <span key={t} className="op-next-tag">{t}</span>
+              ))}
+            </div>
+            <a
+              href="https://wa.me/5493436959359?text=Hola!%20Me%20interesa%20.clinika"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="op-next-cta"
+            >
+              Quiero probarlo primero <ArrowUpRight size={16} strokeWidth={2.5} />
+            </a>
+          </div>
+          <div className="op-next-shot">
+            <Image
+              src="/products/clinika-turnos.png"
+              alt=".clinika — agenda de turnos"
+              width={1533}
+              height={727}
+              className="op-next-img"
+            />
           </div>
         </div>
       </div>
