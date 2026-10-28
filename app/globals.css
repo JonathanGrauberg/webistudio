@@ -1,50 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─────────────────────────────────────────────────────────────
+   Tokens de marca
+   Negro + crema, con el amarillo Webi solo como acento.
+   ───────────────────────────────────────────────────────────── */
 :root {
-  --font-filena: 'Outfit', sans-serif;
-  --background: #0a0a0a;
-  --foreground: #fafafa;
+  --ink: #0a0a0a;
+  --ink-2: #141414;
+  --cream: #f3f1ec;
+  --sand: #e6e2da;
+  --yellow: #fcc107;
+
+  --line-dark: rgba(243, 241, 236, 0.12);
+  --line-light: rgba(10, 10, 10, 0.12);
+  --muted-dark: rgba(243, 241, 236, 0.56);
+  --muted-light: rgba(10, 10, 10, 0.56);
+
+  --gutter: clamp(1.25rem, 4vw, 4.5rem);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Tokens de shadcn/ui (los usan los componentes de components/ui) */
+  --background: var(--ink);
+  --foreground: var(--cream);
   --card: #111111;
-  --card-foreground: #fafafa;
+  --card-foreground: var(--cream);
   --popover: #111111;
-  --popover-foreground: #fafafa;
-  --primary: #fcc107;
-  --primary-foreground: #ffffff;
+  --popover-foreground: var(--cream);
+  --primary: var(--yellow);
+  --primary-foreground: var(--ink);
   --secondary: #1a1a1a;
-  --secondary-foreground: #fafafa;
+  --secondary-foreground: var(--cream);
   --muted: #1a1a1a;
   --muted-foreground: #a1a1a1;
-  --accent: #e8580c;
-  --accent-foreground: #ffffff;
+  --accent: #1a1a1a;
+  --accent-foreground: var(--cream);
   --destructive: #dc2626;
   --destructive-foreground: #fafafa;
   --border: #262626;
   --input: #262626;
-  --ring: #e8580c;
-  --chart-1: #e8580c;
-  --chart-2: #f97316;
-  --chart-3: #fb923c;
-  --chart-4: #fdba74;
-  --chart-5: #fed7aa;
-  --radius: 0.5rem;
-  --sidebar: #111111;
-  --sidebar-foreground: #fafafa;
-  --sidebar-primary: #fcc107;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1a1a1a;
-  --sidebar-accent-foreground: #fafafa;
-  --sidebar-border: #262626;
-  --sidebar-ring: #fcc104;
+  --ring: var(--yellow);
+  --radius: 0.25rem;
 }
 
 @theme inline {
-  --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
-  --font-heading: var(--font-space-grotesk), 'Space Grotesk', system-ui, sans-serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-sans: var(--font-satoshi), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-cream: var(--cream);
+  --color-sand: var(--sand);
+  --color-yellow: var(--yellow);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -64,31 +74,235 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
   body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-filena) !important;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01';
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--yellow);
+    color: var(--ink);
+  }
+  :focus-visible {
+    outline: 1px solid var(--yellow);
+    outline-offset: 3px;
+  }
+  section[id] {
+    scroll-margin-top: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Piezas compartidas
+   ───────────────────────────────────────────────────────────── */
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Etiqueta chica en mayúsculas, como en Neostone/Oxymoron */
+  .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+  .label-line::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+
+  .display {
+    font-weight: 500;
+    font-size: clamp(2.5rem, 6.2vw, 6rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+  .heading {
+    font-weight: 500;
+    font-size: clamp(2.1rem, 4.6vw, 4.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+  .lead {
+    font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  /* Botones rectos y finos */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.95rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
+    transition: background-color 0.35s var(--ease-out), color 0.35s var(--ease-out), border-color 0.35s var(--ease-out);
+  }
+  .btn-light:hover {
+    background: var(--cream);
+    border-color: var(--cream);
+    color: var(--ink);
+  }
+  .btn-dark:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--cream);
+  }
+  .btn-solid {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--ink);
+  }
+  .btn-solid:hover {
+    background: var(--cream);
+    border-color: var(--cream);
+  }
+
+  /* Link con subrayado que se dibuja */
+  .link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-bottom: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-out);
+  }
+  .link:hover::after {
+    transform: scaleX(0);
+  }
+  .link svg {
+    transition: transform 0.4s var(--ease-out);
+  }
+  .link:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  /* Aparición al hacer scroll (ver components/site/reveal.tsx) */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+    transition-delay: var(--delay, 0s);
+  }
+  .js .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Franja de marcas */
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-duration, 45s) linear infinite;
+  }
+  .marquee-mask {
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+  .marquee-mask:hover .marquee {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .marquee {
+    animation-duration: 120s;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Barra de scroll: fina, rectangular, sin flechas ni fondo.
+   El fondo de la canaleta sigue el tema de la sección visible
+   (el navbar lo marca en <html data-theme>).
+   ───────────────────────────────────────────────────────────── */
+html {
+  background: var(--ink);
+  transition: background-color 0.4s ease;
+}
+html[data-theme='light'] {
+  background: var(--cream);
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+/* Chrome no repinta la barra al cambiar de tema, así que la barrita es
+   negra con un filo crema: se ve sobre crema y también sobre negro. */
+::-webkit-scrollbar-thumb {
+  background: var(--ink);
+  border: 1px solid var(--cream);
+  border-radius: 0;
+}
+/* Firefox (no soporta ::-webkit-scrollbar) */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cream) transparent;
+  }
+  html[data-theme='light'] {
+    scrollbar-color: var(--ink) transparent;
   }
 }
