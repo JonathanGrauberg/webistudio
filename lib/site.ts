@@ -5,8 +5,7 @@ export const SITE = {
   legalName: "Webi Studio",
   // Vercel sirve el sitio en www (webistudio.net redirige ahí)
   url: "https://www.webistudio.net",
-  // TODO: confirmar que esta casilla exista (webistudio.net tiene correo en Hostinger)
-  email: "hola@webistudio.net",
+  email: "webibygrauberg@gmail.com",
   whatsapp: "5493436959359",
   whatsappLabel: "+54 9 343 695 9359",
   city: "Paraná",
