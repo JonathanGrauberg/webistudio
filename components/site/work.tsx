@@ -46,7 +46,7 @@ function ProductCard({ work, onOpen }: { work: Work; onOpen: () => void }) {
         )}
         {/* "Vista rápida" que sube al pasar el mouse */}
         <span className="absolute inset-x-2.5 bottom-2.5 flex translate-y-[calc(100%+0.75rem)] items-center justify-center gap-2 bg-ink py-3 text-[0.68rem] font-medium tracking-[0.18em] text-cream uppercase transition-transform duration-500 ease-[var(--ease-out)] group-hover:translate-y-0 max-md:hidden">
-          <Eye size={14} strokeWidth={1.5} /> {live ? "Vista en vivo" : "Ver detalle"}
+          <Eye size={14} strokeWidth={1.5} /> {live && !work.noEmbed ? "Vista en vivo" : "Ver detalle"}
         </span>
       </button>
 
@@ -233,6 +233,8 @@ function QuickView({ work, onClose }: { work: Work; onClose: () => void }) {
   }, [onClose])
 
   const live = Boolean(work.url)
+  // Hay sitios que no se dejan mostrar dentro de otra página (X-Frame-Options)
+  const embeddable = live && !work.noEmbed
 
   return (
     <div
@@ -249,7 +251,7 @@ function QuickView({ work, onClose }: { work: Work; onClose: () => void }) {
       >
         {/* Vista */}
         <div className="relative min-h-[56svh] bg-sand p-4 sm:p-8 md:min-h-0">
-          {live ? (
+          {embeddable ? (
             <LiveFrame work={work} viewport={viewport} />
           ) : (
             <div className="relative h-full w-full overflow-hidden rounded-[4px]">
@@ -280,7 +282,7 @@ function QuickView({ work, onClose }: { work: Work; onClose: () => void }) {
 
           <p className="leading-relaxed text-ink/70 max-md:text-sm">{work.description}</p>
 
-          {live && (
+          {embeddable && (
             <fieldset>
               <legend className="label text-ink/50">Verlo en</legend>
               <div className="mt-3 grid grid-cols-2 gap-2">

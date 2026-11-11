@@ -4,8 +4,8 @@ import { BRANDS } from "@/lib/site"
 const STATS = [
   { value: "4+", label: "Años de experiencia" },
   { value: "20+", label: "Empresas que confían en nosotros" },
-  { value: "7", label: "Sistemas en producción" },
-  { value: "3", label: "Productos propios" },
+  { value: "8", label: "Sistemas en producción" },
+  { value: "4", label: "Productos propios" },
 ]
 
 /** Primera pantalla después de entrar en la W: declaración, números y marcas. */

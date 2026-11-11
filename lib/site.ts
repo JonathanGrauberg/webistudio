@@ -71,6 +71,20 @@ export const PRODUCTS: Product[] = [
     cta: { label: "Conocer Yatay", href: "https://app-resto-tawny.vercel.app" },
   },
   {
+    id: "anclaje",
+    name: ".anclaje",
+    logo: { src: "/products/anclaje-logo-white.png", width: 688, height: 213 },
+    status: "Nuevo",
+    kicker: "Salud mental",
+    title: "Un ancla entre sesión y sesión.",
+    description:
+      "Para psicólogas, psicólogos y sus pacientes. Los pacientes registran cómo se sienten durante la semana, a su ritmo y sin culpa; el profesional llega a cada sesión con contexto, y con su agenda, historia clínica y honorarios en el mismo lugar. Todo cifrado.",
+    features: ["App para pacientes", "Agenda con recordatorios", "Historia clínica y evaluaciones", "Honorarios y cobros"],
+    image: { src: "/work/anclaje.webp", width: 1600, height: 1000, alt: "Portada de .anclaje, app para psicólogos y sus pacientes" },
+    mobile: { src: "/work/anclaje-app.webp", width: 430, height: 931, alt: "Rueda de las emociones en la app de .anclaje vista desde el celular" },
+    cta: { label: "Conocer .anclaje", href: "https://anclaje.webistudio.net" },
+  },
+  {
     id: "clinika",
     name: ".clinika",
     logo: { src: "/products/clinika-logo-white.png", width: 704, height: 230 },
@@ -99,6 +113,8 @@ export interface Work {
   url?: string
   /** Producto propio de Webi (se marca distinto en la vidriera) */
   own?: boolean
+  /** El sitio no permite mostrarse en un iframe: la vista rápida usa la captura */
+  noEmbed?: boolean
 }
 
 export const WORKS: Work[] = [
@@ -158,6 +174,18 @@ export const WORKS: Work[] = [
     description: "Sitio editorial para una tienda de indumentaria de Paraná: propósito, ubicación y contacto, con la estética de la marca.",
     image: { src: "/work/mysandy.webp", width: 1600, height: 1000 },
     url: "https://my-sandy-one.vercel.app",
+  },
+  {
+    id: "anclaje-work",
+    name: ".anclaje",
+    kind: "Sistema",
+    category: "Producto propio · Salud mental",
+    description:
+      "App para psicólogos y sus pacientes: rueda de las emociones, diario y autorregistros para el paciente; agenda, historia clínica, evaluaciones y honorarios para el profesional. Todo cifrado.",
+    image: { src: "/work/anclaje.webp", width: 1600, height: 1000 },
+    url: "https://anclaje.webistudio.net",
+    own: true,
+    noEmbed: true,
   },
   {
     id: "clinika-work",

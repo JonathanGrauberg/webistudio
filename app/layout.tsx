@@ -115,6 +115,15 @@ const jsonLd = {
       description: "Gestión gastronómica para restaurantes, bares y cafeterías: carta QR, pedidos, caja y reservas.",
       publisher: { "@id": `${SITE.url}/#organization` },
     },
+    {
+      "@type": "SoftwareApplication",
+      name: ".anclaje",
+      url: "https://anclaje.webistudio.net",
+      applicationCategory: "HealthApplication",
+      operatingSystem: "Web, Android, iOS",
+      description: "App para psicólogos y sus pacientes: registro emocional entre sesiones, agenda, historia clínica y honorarios.",
+      publisher: { "@id": `${SITE.url}/#organization` },
+    },
   ],
 }
 

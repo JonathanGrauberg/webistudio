@@ -3,7 +3,7 @@ import { useState } from "react"
 import { ArrowUpRight } from "lucide-react"
 import { SITE, whatsappLink } from "@/lib/site"
 
-const INTERESTS = ["Sistema a medida", "Sitio web", "Ecommerce", ".budgets", "Yatay", ".clinika", "Otro"]
+const INTERESTS = ["Sistema a medida", "Sitio web", "Ecommerce", ".budgets", "Yatay", ".anclaje", ".clinika", "Otro"]
 
 const field =
   "w-full border-0 border-b border-[var(--line-dark)] bg-transparent py-3 text-lg text-cream placeholder:text-cream/30 focus:border-yellow focus:outline-none transition-colors"

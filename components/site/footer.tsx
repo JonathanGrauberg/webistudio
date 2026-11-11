@@ -18,6 +18,7 @@ const COLUMNS = [
     links: [
       { label: ".budgets", href: "https://budgets.webistudio.net" },
       { label: "Yatay", href: "#yatay" },
+      { label: ".anclaje", href: "https://anclaje.webistudio.net" },
       { label: ".clinika", href: "#clinika" },
     ],
   },
